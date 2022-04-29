@@ -6,18 +6,20 @@ using Microsoft.EntityFrameworkCore;
 using ECom.Utility;
 
 var builder = WebApplication.CreateBuilder(args);
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");;
+var connectionString = builder.Configuration.GetConnectionString("ApplicationDbContextConnection");;
 
-
-// Add services to the container.
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(connectionString,b=>b.MigrationsAssembly("ECom.DataAccess")));
-builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+    options.UseSqlServer(connectionString));;
+
 builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
-    .AddRoles<IdentityRole>()
-    .AddEntityFrameworkStores<ApplicationDbContext>();
+    .AddEntityFrameworkStores<ApplicationDbContext>();;
+
+
+// Add services to the container.;
+builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddTransient<IEmailSender, EmailSender>();
 builder.Services.AddControllersWithViews();
+var x = builder.Services;
 builder.Services.Configure<IdentityOptions>(options=>
 {
     //Password settings
@@ -45,11 +47,13 @@ builder.Services.ConfigureApplicationCookie(options=>
     options.SlidingExpiration = true;
 });
 var app = builder.Build();
+
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
     ApplicationDbContextSeedData.Initialize(services);
 }
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
