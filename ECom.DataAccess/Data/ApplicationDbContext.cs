@@ -14,12 +14,19 @@ namespace ECom.DataAccess.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+            //đổi tên bảng thành User
             modelBuilder.Entity<ApplicationUser>().ToTable("User");
+            //đổi tên bảng thành Role
             modelBuilder.Entity<ApplicationRole>().ToTable("Role");
+            //đổi tên bảng thành UserClaim
             modelBuilder.Entity<IdentityUserClaim<Int32>>().ToTable("UserClaim");
+            //đổi tên bảng thành UserRole
             modelBuilder.Entity<IdentityUserRole<Int32>>().ToTable("UserRole");
+            //đổi tên bảng thành UserLogin
             modelBuilder.Entity<IdentityUserLogin<Int32>>().ToTable("UserLogin");
+            //đổi tên bảng thành RoleClaim
             modelBuilder.Entity<IdentityRoleClaim<Int32>>().ToTable("RoleClaim");
+            //đổi tên bảng thành UserToken
             modelBuilder.Entity<IdentityUserToken<Int32>>().ToTable("UserToken");
             // modelBuilder.Entity<Category>()
             //     .HasMany(c => c.Products)
@@ -29,6 +36,7 @@ namespace ECom.DataAccess.Data
             //     .HasMany(c => c.Products)
             //     .WithOne(p => p.Manufacture)
             //     .HasForeignKey(p => p.ManufactureId);
+            //Quan hệ 1-1 Product và Specification
             modelBuilder.Entity<Product>()
                 .HasOne(p => p.Specification)
                 .WithOne(s => s.Product)
@@ -51,10 +59,10 @@ namespace ECom.DataAccess.Data
             // modelBuilder.Entity<OrderItem>()
             //     .HasOne(oi => oi.Product)
             //     .WithMany();
-            modelBuilder.Entity<OrderItem>()
-                .OwnsOne(x=>x.ItemOrdered);
-            modelBuilder.Entity<Order>()
-                .OwnsOne(x=>x.ShipToAddress);
+            // modelBuilder.Entity<OrderItem>()
+            //     .OwnsOne(x=>x.ItemOrdered);
+            // modelBuilder.Entity<Order>()
+            //     .OwnsOne(x=>x.ShipToAddress);
         }
         public DbSet<Product> Products { get; set; }
         public DbSet<Specification> Specifications { get; set; }
