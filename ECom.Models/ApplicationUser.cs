@@ -2,7 +2,9 @@
 using Microsoft.AspNetCore.Identity;
 
 namespace ECom.Models;
-
+/// <summary>
+/// Khóa chính là Int, thừa kế từ IdentityUser
+/// </summary>
 public class ApplicationUser : IdentityUser<Int32>
 {
     /// <summary>

@@ -5,6 +5,10 @@ using Microsoft.AspNetCore.Identity;
 
 namespace ECom.DataAccess.Data
 {
+    /// <summary>
+    /// Thừa kế từ IdentityDbContext với 2 custom model là ApplicationUser và ApplicationRole,
+    /// Khóa chính cả 2 là int
+    /// </summary>
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, Int32>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)

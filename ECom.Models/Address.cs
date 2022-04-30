@@ -3,6 +3,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ECom.Models
 {
+    /// <summary>
+    /// Model này k tạo bảng mà chuyển thành các cột trong các bảng khác có nó
+    /// </summary>
     [Owned]
     public class Address
     {
