@@ -6,7 +6,7 @@ namespace ECom.Models
     {
         [Key]
         public int Id {get; set;}
-        public string BuyerId {get; set;}
+        public int BuyerId {get; set;}
         public ApplicationUser Buyer { get; set; }
         public List<BasketItem> Items {get; set;}
     }

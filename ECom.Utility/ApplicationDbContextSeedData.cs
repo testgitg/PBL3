@@ -12,18 +12,17 @@ public class ApplicationDbContextSeedData
     {
         var context = serviceProvider.GetService<ApplicationDbContext>();
         string[] roles = new string[] {StaticDetail.RoleUser, StaticDetail.RoleAdmin};
-        string[] ids = new string[] {StaticDetail.UserId, StaticDetail.AdminId};
+        int[] ids = new int[] {StaticDetail.UserId, StaticDetail.AdminId};
         var rolesAndIds = roles.Zip(ids);
         foreach (var (role,id) in rolesAndIds)
         {
             if (!context.Roles.Any(r => r.Name == role))
             {
-                context.Roles.Add(new IdentityRole()
+                context.Roles.Add(new ApplicationRole()
                 {
                     Name = role,
                     NormalizedName = role.ToUpper(),
-                    Id = id,
-                    ConcurrencyStamp = id
+                    ConcurrencyStamp = Guid.NewGuid().ToString()
                 });
             }
         }

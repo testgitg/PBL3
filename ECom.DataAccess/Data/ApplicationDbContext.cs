@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace ECom.DataAccess.Data
 {
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, Int32>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -15,12 +15,12 @@ namespace ECom.DataAccess.Data
         {
             base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<ApplicationUser>().ToTable("User");
-            modelBuilder.Entity<IdentityRole>().ToTable("Role");
-            modelBuilder.Entity<IdentityUserClaim<string>>().ToTable("UserClaim");
-            modelBuilder.Entity<IdentityUserRole<string>>().ToTable("UserRole");
-            modelBuilder.Entity<IdentityUserLogin<string>>().ToTable("UserLogin");
-            modelBuilder.Entity<IdentityRoleClaim<string>>().ToTable("RoleClaim");
-            modelBuilder.Entity<IdentityUserToken<string>>().ToTable("UserToken");
+            modelBuilder.Entity<ApplicationRole>().ToTable("Role");
+            modelBuilder.Entity<IdentityUserClaim<Int32>>().ToTable("UserClaim");
+            modelBuilder.Entity<IdentityUserRole<Int32>>().ToTable("UserRole");
+            modelBuilder.Entity<IdentityUserLogin<Int32>>().ToTable("UserLogin");
+            modelBuilder.Entity<IdentityRoleClaim<Int32>>().ToTable("RoleClaim");
+            modelBuilder.Entity<IdentityUserToken<Int32>>().ToTable("UserToken");
             // modelBuilder.Entity<Category>()
             //     .HasMany(c => c.Products)
             //     .WithOne(p => p.Category)
