@@ -12,11 +12,9 @@ public class ApplicationDbContextSeedData
     {
         var context = serviceProvider.GetService<ApplicationDbContext>();
         string[] roles = new string[] {StaticDetail.RoleUser, StaticDetail.RoleAdmin};
-        int[] ids = new int[] {StaticDetail.UserId, StaticDetail.AdminId};
-        var rolesAndIds = roles.Zip(ids);
-        foreach (var (role,id) in rolesAndIds)
+        foreach (var role in roles)
         {
-            if (!context.Roles.Any(r => r.Name == role))
+            if(!context.Roles.Any(x => x.Name == role))
             {
                 context.Roles.Add(new ApplicationRole()
                 {
@@ -26,14 +24,6 @@ public class ApplicationDbContextSeedData
                 });
             }
         }
-        //
-        // if (!context.UserRoles.Any(s => true))
-        // {
-        //     context.UserRoles.Add(new IdentityUserRole<string>()
-        //     {
-        //         RoleId = 
-        //     })
-        // }
         context.SaveChanges();
     }
 }
