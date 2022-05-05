@@ -45,6 +45,12 @@ namespace EComWeb.Areas.Identity.Pages.Account
 
             code = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(code));
             var result = await _userManager.ConfirmEmailAsync(user, code);
+            if (result.Succeeded)
+            {
+                await _userManager.AddToRoleAsync(user, "User");
+                StatusMessage = "Thank you for confirming your email.";
+            }
+            else StatusMessage="Error confirming your email.";
             await _userManager.AddToRoleAsync(user, "User");
             StatusMessage = result.Succeeded ? "Thank you for confirming your email." : "Error confirming your email.";
             return Page();
