@@ -9,9 +9,10 @@ namespace ECom.Utility;
 
 public class ApplicationDbContextSeedData
 {
-    public static void Initialize(IServiceProvider serviceProvider)
+    public static async Task InitializeAsync(IServiceProvider serviceProvider)
     {
         var context = serviceProvider.GetService<ApplicationDbContext>();
+        var userManager = serviceProvider.GetService<UserManager<ApplicationUser>>();
         string[] roles = new string[] {StaticDetail.RoleUser, StaticDetail.RoleAdmin};
         foreach (var role in roles)
         {
@@ -35,22 +36,11 @@ public class ApplicationDbContextSeedData
             var user= new ApplicationUser
             {
                 UserName = StaticDetail.AdminEmail,
-                NormalizedUserName = StaticDetail.AdminEmail.ToUpper(),
-                NormalizedEmail = StaticDetail.AdminEmail.ToUpper(),
-                EmailConfirmed = true,
-                SecurityStamp = Guid.NewGuid().ToString()
+                Email=StaticDetail.AdminEmail,
+                EmailConfirmed = true
             };
-            var password = new PasswordHasher<ApplicationUser>();
-            var hashed = password.HashPassword(user, "Admin123!");
-            user.PasswordHash = hashed;
-            context.Users.Add(user);
-            context.SaveChanges();
-            var userRole = new IdentityUserRole<int>
-            {
-                RoleId = context.Roles.FirstOrDefault(r => r.Name == StaticDetail.RoleAdmin).Id,
-                UserId = context.Users.FirstOrDefault(u => u.UserName == StaticDetail.AdminEmail).Id
-            };
-            context.UserRoles.Add(userRole);
+            await userManager.CreateAsync(user, "Admin123!");
+            await userManager.AddToRoleAsync(user, StaticDetail.RoleAdmin);
             context.SaveChanges();
         }
         
