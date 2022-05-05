@@ -1,6 +1,7 @@
 ﻿using ECom.DataAccess.Data;
 using ECom.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -23,7 +24,35 @@ public class ApplicationDbContextSeedData
                     ConcurrencyStamp = Guid.NewGuid().ToString()
                 });
             }
+
+            context.SaveChanges();
         }
-        context.SaveChanges();
+
+        if (!context.UserRoles.Any(x => 
+                x.RoleId == context.Roles.FirstOrDefault(r => r.Name == StaticDetail.RoleAdmin).Id))
+        {
+            
+            var user= new ApplicationUser
+            {
+                UserName = StaticDetail.AdminEmail,
+                NormalizedUserName = StaticDetail.AdminEmail.ToUpper(),
+                NormalizedEmail = StaticDetail.AdminEmail.ToUpper(),
+                EmailConfirmed = true,
+                SecurityStamp = Guid.NewGuid().ToString()
+            };
+            var password = new PasswordHasher<ApplicationUser>();
+            var hashed = password.HashPassword(user, "Admin123!");
+            user.PasswordHash = hashed;
+            context.Users.Add(user);
+            context.SaveChanges();
+            var userRole = new IdentityUserRole<int>
+            {
+                RoleId = context.Roles.FirstOrDefault(r => r.Name == StaticDetail.RoleAdmin).Id,
+                UserId = context.Users.FirstOrDefault(u => u.UserName == StaticDetail.AdminEmail).Id
+            };
+            context.UserRoles.Add(userRole);
+            context.SaveChanges();
+        }
+        
     }
 }
