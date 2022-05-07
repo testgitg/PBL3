@@ -1,8 +1,6 @@
 ﻿using ECom.DataAccess.Data;
 using ECom.Models;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace ECom.Utility;
@@ -39,7 +37,7 @@ public class ApplicationDbContextSeedData
                 Email=StaticDetail.AdminEmail,
                 EmailConfirmed = true
             };
-            await userManager.CreateAsync(user, "Admin123!");
+            await userManager.CreateAsync(user, StaticDetail.AdminPassword);
             await userManager.AddToRoleAsync(user, StaticDetail.RoleAdmin);
             context.SaveChanges();
         }
