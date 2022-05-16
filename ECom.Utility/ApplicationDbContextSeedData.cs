@@ -41,6 +41,30 @@ public class ApplicationDbContextSeedData
             await userManager.AddToRoleAsync(user, StaticDetail.RoleAdmin);
             context.SaveChanges();
         }
-        
+
+        if (!context.Manufactures.Any())
+        {
+            var lst = new List<Manufacture>()
+            {
+                new Manufacture
+                {
+                    Name = "Apple"
+                },
+                new Manufacture
+                {
+                    Name = "Samsung"
+                },
+                new Manufacture
+                {
+                    Name = "Sony"
+                },
+                new Manufacture
+                {
+                    Name = "OnePlus"
+                }
+            };
+            context.Manufactures.AddRange(lst);
+            context.SaveChanges();
+        }
     }
 }

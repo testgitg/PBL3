@@ -25,7 +25,7 @@ namespace ECom.Models
         public decimal Discount { get; set; }
         public int Quantity { get; set; }
         public List<BasketItem> BasketItems { get; set; } = new List<BasketItem>();
-        public string ImageUrl { get; set; }
+        public string ImageUri { get; set; }
         public string IMEI { get; set; }
         public bool IsDeleted { get; set; }
     }
