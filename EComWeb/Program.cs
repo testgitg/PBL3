@@ -24,7 +24,10 @@ builder.Services.AddIdentity<ApplicationUser, ApplicationRole>()
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddTransient<IEmailSender, EmailSender>();
 builder.Services.AddControllersWithViews();
-var x = builder.Services;
+builder.Services.AddRazorPages(options =>
+{
+    options.Conventions.AuthorizeAreaFolder("Management", "/");
+});
 builder.Services.Configure<IdentityOptions>(options=>
 {
     //Password settings

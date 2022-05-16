@@ -1,5 +1,4 @@
-﻿#nullable disable
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -11,90 +10,87 @@ using ECom.Models;
 
 namespace EComWeb.Controllers
 {
-    public class ManufactureController : Controller
+    public class ManufacturesController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public ManufactureController(ApplicationDbContext context)
+        public ManufacturesController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: Manufacture
+        // GET: Manufactures
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Baskets.Include(b => b.Buyer);
-            return View(await applicationDbContext.ToListAsync());
+              return _context.Manufactures != null ? 
+                          View(await _context.Manufactures.ToListAsync()) :
+                          Problem("Entity set 'ApplicationDbContext.Manufactures'  is null.");
         }
 
-        // GET: Manufacture/Details/5
+        // GET: Manufactures/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null)
+            if (id == null || _context.Manufactures == null)
             {
                 return NotFound();
             }
 
-            var basket = await _context.Baskets
-                .Include(b => b.Buyer)
+            var manufacture = await _context.Manufactures
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (basket == null)
+            if (manufacture == null)
             {
                 return NotFound();
             }
 
-            return View(basket);
+            return View(manufacture);
         }
 
-        // GET: Manufacture/Create
+        // GET: Manufactures/Create
         public IActionResult Create()
         {
-            ViewData["BuyerId"] = new SelectList(_context.ApplicationUsers, "Id", "Id");
             return View();
         }
 
-        // POST: Manufacture/Create
+        // POST: Manufactures/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,BuyerId")] Basket basket)
+        public async Task<IActionResult> Create([Bind("Name")] Manufacture manufacture)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(basket);
+                _context.Add(manufacture);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["BuyerId"] = new SelectList(_context.ApplicationUsers, "Id", "Id", basket.BuyerId);
-            return View(basket);
+            return View(manufacture);
         }
 
-        // GET: Manufacture/Edit/5
+        // GET: Manufactures/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null)
+            if (id == null || _context.Manufactures == null)
             {
                 return NotFound();
             }
 
-            var basket = await _context.Baskets.FindAsync(id);
-            if (basket == null)
+            var manufacture = await _context.Manufactures.FindAsync(id);
+            if (manufacture == null)
             {
                 return NotFound();
             }
-            ViewData["BuyerId"] = new SelectList(_context.ApplicationUsers, "Id", "Id", basket.BuyerId);
-            return View(basket);
+            return View(manufacture);
         }
 
-        // POST: Manufacture/Edit/5
+        // POST: Manufactures/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,BuyerId")] Basket basket)
+        public async Task<IActionResult> Edit(int id, [Bind("Name")] Manufacture manufacture)
         {
-            if (id != basket.Id)
+            if (id != manufacture.Id)
             {
                 return NotFound();
             }
@@ -103,12 +99,12 @@ namespace EComWeb.Controllers
             {
                 try
                 {
-                    _context.Update(basket);
+                    _context.Update(manufacture);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!BasketExists(basket.Id))
+                    if (!ManufactureExists(manufacture.Id))
                     {
                         return NotFound();
                     }
@@ -119,43 +115,49 @@ namespace EComWeb.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["BuyerId"] = new SelectList(_context.ApplicationUsers, "Id", "Id", basket.BuyerId);
-            return View(basket);
+            return View(manufacture);
         }
 
-        // GET: Manufacture/Delete/5
+        // GET: Manufactures/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null)
+            if (id == null || _context.Manufactures == null)
             {
                 return NotFound();
             }
 
-            var basket = await _context.Baskets
-                .Include(b => b.Buyer)
+            var manufacture = await _context.Manufactures
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (basket == null)
+            if (manufacture == null)
             {
                 return NotFound();
             }
 
-            return View(basket);
+            return View(manufacture);
         }
 
-        // POST: Manufacture/Delete/5
+        // POST: Manufactures/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var basket = await _context.Baskets.FindAsync(id);
-            _context.Baskets.Remove(basket);
+            if (_context.Manufactures == null)
+            {
+                return Problem("Entity set 'ApplicationDbContext.Manufactures'  is null.");
+            }
+            var manufacture = await _context.Manufactures.FindAsync(id);
+            if (manufacture != null)
+            {
+                _context.Manufactures.Remove(manufacture);
+            }
+            
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool BasketExists(int id)
+        private bool ManufactureExists(int id)
         {
-            return _context.Baskets.Any(e => e.Id == id);
+          return (_context.Manufactures?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

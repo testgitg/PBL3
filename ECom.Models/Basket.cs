@@ -8,7 +8,7 @@ namespace ECom.Models
         public int Id {get; set;}
         public int BuyerId {get; set;}
         public ApplicationUser Buyer { get; set; }
-        public List<BasketItem> Items {get; set;}
+        public List<BasketItem> Items { get; set; } = new List<BasketItem>();
     }
     
 }

@@ -17,6 +17,6 @@ public class ApplicationUser : IdentityUser<Int32>
     /// </summary>
     [PersonalData]
     public Address? Address { get; set; }
-    public List<Basket> Baskets { get; set; }
-    public List<Order> Orders { get; set; }
+    public List<Basket> Baskets { get; set; }=new List<Basket>();
+    public List<Order> Orders { get; set; }=new List<Order>();
 }

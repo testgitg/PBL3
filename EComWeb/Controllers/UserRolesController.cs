@@ -6,13 +6,13 @@ using Microsoft.AspNetCore.Mvc;
 namespace EComWeb.Controllers;
 
 [Authorize(Roles = "Admin")]
-public class UserRoles : Controller
+public class UserRolesController : Controller
 {
     private readonly SignInManager<ApplicationUser> _signInManager;
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly RoleManager<ApplicationRole> _roleManager;
 
-    public UserRoles(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager,
+    public UserRolesController(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager,
         RoleManager<ApplicationRole> roleManager)
     {
         _userManager = userManager;

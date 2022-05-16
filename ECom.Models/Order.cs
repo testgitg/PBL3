@@ -11,7 +11,7 @@ namespace ECom.Models
         public Address ShipToAddress {get; set;}
         public int OrderStatusId { get; set; }
         public OrderStatus OrderStatus { get; set; }
-        public List<OrderItem> OrderItems {get; set;}
+        public List<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
 
 
     }

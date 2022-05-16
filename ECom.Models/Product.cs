@@ -5,6 +5,8 @@ namespace ECom.Models
     public class Product
     {
         [Key]
+        
+        
         public int Id { get; set; }
         public string Name { get; set; }
 
@@ -22,7 +24,7 @@ namespace ECom.Models
         [Range(0,100)]
         public decimal Discount { get; set; }
         public int Quantity { get; set; }
-        public List<BasketItem> BasketItems { get; set; }
+        public List<BasketItem> BasketItems { get; set; } = new List<BasketItem>();
         public string ImageUrl { get; set; }
         public string IMEI { get; set; }
         public bool IsDeleted { get; set; }
