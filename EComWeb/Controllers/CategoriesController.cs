@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -12,87 +12,87 @@ using Microsoft.AspNetCore.Authorization;
 namespace EComWeb.Controllers
 {
     [Authorize(Roles = "Admin")]
-    public class ManufacturesController : Controller
+    public class CategoriesController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public ManufacturesController(ApplicationDbContext context)
+        public CategoriesController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: Manufactures
+        // GET: Categories
         public async Task<IActionResult> Index()
         {
-              return _context.Manufactures != null ? 
-                          View(await _context.Manufactures.ToListAsync()) :
-                          Problem("Entity set 'ApplicationDbContext.Manufactures'  is null.");
+              return _context.Categories != null ? 
+                          View(await _context.Categories.ToListAsync()) :
+                          Problem("Entity set 'ApplicationDbContext.Categories'  is null.");
         }
 
-        // GET: Manufactures/Details/5
+        // GET: Categories/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.Manufactures == null)
+            if (id == null || _context.Categories == null)
             {
                 return NotFound();
             }
 
-            var manufacture = await _context.Manufactures
+            var category = await _context.Categories
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (manufacture == null)
+            if (category == null)
             {
                 return NotFound();
             }
 
-            return View(manufacture);
+            return View(category);
         }
 
-        // GET: Manufactures/Create
+        // GET: Categories/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Manufactures/Create
+        // POST: Categories/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Name")] Manufacture manufacture)
+        public async Task<IActionResult> Create([Bind("Id,Name")] Category category)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(manufacture);
+                _context.Add(category);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(manufacture);
+            return View(category);
         }
 
-        // GET: Manufactures/Edit/5
+        // GET: Categories/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Manufactures == null)
+            if (id == null || _context.Categories == null)
             {
                 return NotFound();
             }
 
-            var manufacture = await _context.Manufactures.FindAsync(id);
-            if (manufacture == null)
+            var category = await _context.Categories.FindAsync(id);
+            if (category == null)
             {
                 return NotFound();
             }
-            return View(manufacture);
+            return View(category);
         }
 
-        // POST: Manufactures/Edit/5
+        // POST: Categories/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Name")] Manufacture manufacture)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name")] Category category)
         {
-            if (id != manufacture.Id)
+            if (id != category.Id)
             {
                 return NotFound();
             }
@@ -101,12 +101,12 @@ namespace EComWeb.Controllers
             {
                 try
                 {
-                    _context.Update(manufacture);
+                    _context.Update(category);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ManufactureExists(manufacture.Id))
+                    if (!CategoryExists(category.Id))
                     {
                         return NotFound();
                     }
@@ -117,49 +117,49 @@ namespace EComWeb.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(manufacture);
+            return View(category);
         }
 
-        // GET: Manufactures/Delete/5
+        // GET: Categories/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.Manufactures == null)
+            if (id == null || _context.Categories == null)
             {
                 return NotFound();
             }
 
-            var manufacture = await _context.Manufactures
+            var category = await _context.Categories
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (manufacture == null)
+            if (category == null)
             {
                 return NotFound();
             }
 
-            return View(manufacture);
+            return View(category);
         }
 
-        // POST: Manufactures/Delete/5
+        // POST: Categories/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Manufactures == null)
+            if (_context.Categories == null)
             {
-                return Problem("Entity set 'ApplicationDbContext.Manufactures'  is null.");
+                return Problem("Entity set 'ApplicationDbContext.Categories'  is null.");
             }
-            var manufacture = await _context.Manufactures.FindAsync(id);
-            if (manufacture != null)
+            var category = await _context.Categories.FindAsync(id);
+            if (category != null)
             {
-                _context.Manufactures.Remove(manufacture);
+                _context.Categories.Remove(category);
             }
             
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ManufactureExists(int id)
+        private bool CategoryExists(int id)
         {
-          return (_context.Manufactures?.Any(e => e.Id == id)).GetValueOrDefault();
+          return (_context.Categories?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }
