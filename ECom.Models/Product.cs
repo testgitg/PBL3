@@ -31,6 +31,7 @@ namespace ECom.Models
         [Required(ErrorMessage = "Must have image")]
         public IFormFile Image { get; set; }
         public bool IsDeleted { get; set; }
+        public int? Like { get; set; }
         
     }
 }
