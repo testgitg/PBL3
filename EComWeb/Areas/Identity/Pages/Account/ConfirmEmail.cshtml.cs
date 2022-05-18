@@ -51,7 +51,6 @@ namespace EComWeb.Areas.Identity.Pages.Account
                 StatusMessage = "Thank you for confirming your email.";
             }
             else StatusMessage="Error confirming your email.";
-            await _userManager.AddToRoleAsync(user, "User");
             StatusMessage = result.Succeeded ? "Thank you for confirming your email." : "Error confirming your email.";
             return Page();
         }

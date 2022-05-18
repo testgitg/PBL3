@@ -25,7 +25,6 @@ namespace EComWeb.Controllers
         public async Task<IActionResult> Index()
         {
             var applicationDbContext = _context.Products.Include(p => p.Category).Include(p => p.Manufacture);
-            var products = applicationDbContext.ToListAsync();
             return View(await applicationDbContext.ToListAsync());
         }
 
