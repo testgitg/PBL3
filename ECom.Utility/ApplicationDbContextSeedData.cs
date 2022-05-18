@@ -66,5 +66,26 @@ public class ApplicationDbContextSeedData
             context.Manufactures.AddRange(lst);
             context.SaveChanges();
         }
+
+        if (!context.Categories.Any())
+        {
+            var lst = new List<Category>()
+            {
+                new Category
+                {
+                    Name = "Điện thoại"
+                },
+                new Category
+                {
+                    Name = "Máy tính bảng"
+                },
+                new Category
+                {
+                    Name = "Laptop"
+                }
+            };
+            context.Categories.AddRange(lst);
+            context.SaveChanges();
+        }
     }
 }

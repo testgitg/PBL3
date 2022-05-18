@@ -1,15 +1,19 @@
+using System.Globalization;
 using ECom.DataAccess.Data;
 using ECom.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using ECom.Utility;
+using Microsoft.AspNetCore.Localization;
+using NuGet.Common;
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("ApplicationDbContextConnection");
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
+
 
 // builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
 //     .AddEntityFrameworkStores<ApplicationDbContext>();
@@ -54,6 +58,8 @@ builder.Services.ConfigureApplicationCookie(options=>
     options.AccessDeniedPath = "/Identity/Account/AccessDenied";
     options.SlidingExpiration = true;
 });
+
+
 var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())
@@ -86,5 +92,18 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 app.MapRazorPages();
+
+// app.UseRequestLocalization(new RequestLocalizationOptions()
+// {
+//     DefaultRequestCulture = new RequestCulture("en-GB"),
+//     SupportedCultures=new List<CultureInfo>()
+//     {
+//         new CultureInfo("en-GB")
+//     },
+//     SupportedUICultures =new List<CultureInfo>()
+//     {
+//         new CultureInfo("en-GB")
+//     }
+// });
 
 app.Run();
